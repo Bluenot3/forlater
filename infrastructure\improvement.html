@@ -1,0 +1,507 @@
+<html><head><base href="https://www.zencreativesolutions.com">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEN Impact | Transforming Business Through Advanced HR Tech</title>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    :root {
+        --primary-color: #4a90e2;
+        --secondary-color: #50c878;
+        --text-color: #333;
+        --bg-color: #f8f9fa;
+        --card-bg: #ffffff;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        line-height: 1.8;
+        color: var(--text-color);
+        margin: 0;
+        padding: 0;
+        background-color: var(--bg-color);
+    }
+
+    .container {
+        width: 95%;
+        max-width: 1400px;
+        margin: auto;
+        padding: 40px 20px;
+    }
+
+    header {
+        background: linear-gradient(135deg, #4a90e2 0%, #50c878 100%);
+        color: white;
+        padding: 40px 0;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    h1, h2, h3 {
+        font-weight: 600;
+    }
+
+    header h1 {
+        margin: 0;
+        text-align: center;
+        font-size: 3.5em;
+        letter-spacing: 1px;
+    }
+
+    .highlight {
+        color: #50c878;
+        font-weight: 700;
+    }
+
+    .impact-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+        margin-top: 50px;
+    }
+
+    .impact-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        padding: 30px;
+        transition: all 0.3s ease;
+    }
+
+    .impact-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+    }
+
+    .impact-card h3 {
+        color: var(--primary-color);
+        border-bottom: 3px solid var(--secondary-color);
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+        font-size: 1.8em;
+    }
+
+    .chart-container {
+        width: 100%;
+        height: 400px;
+        margin: 30px 0;
+    }
+
+    #networkSimulation {
+        width: 100%;
+        height: 600px;
+        background: #1a1a1a;
+        border-radius: 15px;
+        margin-top: 50px;
+    }
+
+    pre {
+        background-color: #f4f4f4;
+        border-left: 5px solid var(--secondary-color);
+        padding: 20px;
+        overflow-x: auto;
+        font-size: 0.9em;
+        border-radius: 5px;
+    }
+
+    .api-example {
+        background-color: #e8f5e9;
+        border: 2px solid #a5d6a7;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 20px 0;
+        font-size: 0.9em;
+    }
+
+    .kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .kpi-item {
+        background: var(--card-bg);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .kpi-value {
+        font-size: 2.5em;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+
+    .kpi-label {
+        font-size: 1em;
+        color: #666;
+        margin-top: 10px;
+    }
+
+    #impactTimeline {
+        width: 100%;
+        height: 400px;
+        margin-top: 50px;
+    }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis-network/9.1.2/dist/vis-network.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>ZEN Impact: <span class="highlight">Revolutionizing Business Through HR Tech</span></h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <h2>Key Performance Indicators</h2>
+        <div class="kpi-grid">
+            <div class="kpi-item">
+                <div class="kpi-value">42%</div>
+                <div class="kpi-label">Increase in Hiring Efficiency</div>
+            </div>
+            <div class="kpi-item">
+                <div class="kpi-value">$2.1M</div>
+                <div class="kpi-label">Annual Cost Savings</div>
+            </div>
+            <div class="kpi-item">
+                <div class="kpi-value">89%</div>
+                <div class="kpi-label">Improved Candidate Experience</div>
+            </div>
+            <div class="kpi-item">
+                <div class="kpi-value">3.5x</div>
+                <div class="kpi-label">Increase in Qualified Applicants</div>
+            </div>
+        </div>
+
+        <div class="impact-grid">
+            <div class="impact-card">
+                <h3>Recruitment Efficiency Revolution</h3>
+                <div class="chart-container">
+                    <canvas id="efficiencyChart"></canvas>
+                </div>
+                <p>Our AI-powered ATS leverages cutting-edge machine learning to optimize every step of the recruitment funnel:</p>
+                <pre>
+// Advanced candidate scoring algorithm
+function scoreCandidate(candidate) {
+    let score = 0;
+    score += 0.4 * evaluateSkillMatch(candidate.skills, jobRequirements);
+    score += 0.3 * analyzeSentiment(candidate.coverLetter);
+    score += 0.2 * predictPerformance(candidate.experience);
+    score += 0.1 * cultureFitAnalysis(candidate.values, companyValues);
+    return normalizeScore(score);
+}
+
+function cultureFitAnalysis(candidateValues, companyValues) {
+    return cosineSimilarity(vectorize(candidateValues), vectorize(companyValues));
+}
+                </pre>
+            </div>
+            
+            <div class="impact-card">
+                <h3>AI-Driven Content Optimization</h3>
+                <div class="chart-container">
+                    <canvas id="contentChart"></canvas>
+                </div>
+                <p>Leveraging GPT-4 for hyper-personalized job descriptions and outreach:</p>
+                <div class="api-example">
+                    POST /api/generate-content
+                    {
+                        "role": "Senior Machine Learning Engineer",
+                        "company_culture": "Innovative, fast-paced, collaborative",
+                        "key_requirements": ["Python", "TensorFlow", "Computer Vision"],
+                        "unique_perks": ["Remote-first", "Unlimited learning budget"],
+                        "target_candidate_persona": {
+                            "experience_level": "5-8 years",
+                            "preferred_industries": ["Tech", "Research"],
+                            "motivations": ["Cutting-edge projects", "Work-life balance"]
+                        }
+                    }
+                </div>
+            </div>
+            
+            <div class="impact-card">
+                <h3>Real-time Talent Analytics</h3>
+                <p>Our system processes vast amounts of candidate data in real-time using Azure Stream Analytics:</p>
+                <pre>
+WITH CandidateStream AS (
+    SELECT 
+        ApplicantId,
+        Name,
+        Skills,
+        Experience,
+        InteractionType,
+        ResponseTime,
+        EventEnqueuedUtcTime
+    FROM 
+        ApplicantInteractionStream TIMESTAMP BY EventEnqueuedUtcTime
+)
+SELECT 
+    ApplicantId,
+    Name,
+    Skills,
+    AVG(ResponseTime) OVER (PARTITION BY ApplicantId 
+                            ORDER BY EventEnqueuedUtcTime 
+                            ROWS BETWEEN 20 PRECEDING AND CURRENT ROW) as AvgResponseTime,
+    COUNT(CASE WHEN InteractionType = 'Positive' THEN 1 END) OVER (PARTITION BY ApplicantId) as PositiveInteractions,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY Experience) OVER (PARTITION BY Skills) as MedianExperienceBySkill
+INTO 
+    PowerBIOutput
+FROM 
+    CandidateStream
+                </pre>
+            </div>
+        </div>
+
+        <h2>Talent Acquisition Network Simulation</h2>
+        <div id="networkSimulation"></div>
+
+        <div class="impact-card">
+            <h3>Seamless HR Tech Integration</h3>
+            <p>Our platform integrates with leading HR systems like ADP for efficient onboarding and talent management:</p>
+            <pre>
+const onboardEmployee = async (employeeData) => {
+    try {
+        const adpResponse = await fetch('https://api.adp.com/hr/v2/workers', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${ADP_API_TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(employeeData)
+        });
+        const adpData = await adpResponse.json();
+        
+        // Sync with internal systems
+        await syncInternalSystems(adpData);
+        
+        // Trigger onboarding workflow
+        const workflowResponse = await fetch('/api/internal/onboarding-workflow', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ employeeId: adpData.workerId })
+        });
+        const workflowData = await workflowResponse.json();
+        
+        console.log('Employee onboarded successfully:', { adp: adpData, workflow: workflowData });
+    } catch (error) {
+        console.error('Onboarding failed:', error);
+        // Implement retry logic or manual intervention notification
+    }
+};
+
+const syncInternalSystems = async (adpData) => {
+    // Sync with HRIS, payroll, and access management systems
+    const syncPromises = [
+        syncHRIS(adpData),
+        syncPayroll(adpData),
+        provisionAccess(adpData)
+    ];
+    await Promise.all(syncPromises);
+};
+            </pre>
+        </div>
+
+        <h2>ZEN Impact Timeline</h2>
+        <div id="impactTimeline"></div>
+    </div>
+
+    <script>
+    // Efficiency Chart
+    const effCtx = document.getElementById('efficiencyChart').getContext('2d');
+    new Chart(effCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Time-to-Hire (Days)',
+                data: [57, 54, 50, 47, 44, 42, 40, 38, 36, 35, 34, 33],
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Quality of Hire (Score)',
+                data: [70, 72, 75, 78, 80, 82, 85, 87, 89, 90, 91, 92],
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Recruitment Efficiency and Quality Improvement'
+                },
+                legend: {
+                    position: 'top',
+                },
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Value'
+                    }
+                }
+            }
+        }
+    });
+
+    // Content Optimization Chart
+    const contentCtx = document.getElementById('contentChart').getContext('2d');
+    new Chart(contentCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Organic Reach', 'Engagement Rate (%)', 'Conversion Rate (%)', 'Time on Page (min)', 'Shares'],
+            datasets: [{
+                label: 'Before AI Optimization',
+                data: [1000, 2, 0.5, 1.5, 10],
+                backgroundColor: 'rgba(255, 99, 132, 0.7)'
+            }, {
+                label: 'After AI Optimization',
+                data: [4794, 5.8, 2.1, 3.2, 45],
+                backgroundColor: 'rgba(75, 192, 192, 0.7)'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Content Performance Metrics'
+                },
+                legend: {
+                    position: 'top',
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Value'
+                    }
+                }
+            }
+        }
+    });
+
+    // Network Simulation
+    const container = document.getElementById('networkSimulation');
+    const nodes = new vis.DataSet([
+        {id: 1, label: 'Candidate Application', color: '#4CAF50', shape: 'diamond'},
+        {id: 2, label: 'AI-Powered ATS', color: '#2196F3', shape: 'hexagon'},
+        {id: 3, label: 'Azure ML Pipeline', color: '#FFC107', shape: 'star'},
+        {id: 4, label: 'HR Dashboard', color: '#9C27B0', shape: 'triangle'},
+        {id: 5, label: 'ADP API', color: '#F44336', shape: 'square'},
+        {id: 6, label: 'Talent Pool', color: '#009688', shape: 'dot'},
+        {id: 7, label: 'Interview Scheduler', color: '#FF5722', shape: 'diamond'},
+        {id: 8, label: 'Offer Management', color: '#795548', shape: 'triangle'}
+    ]);
+    const edges = new vis.DataSet([
+        {from: 1, to: 2, arrows: 'to', label: 'Submit'},
+        {from: 2, to: 3, arrows: 'to', label: 'Analyze'},
+        {from: 3, to: 2, arrows: 'to', label: 'Score'},
+        {from: 2, to: 4, arrows: 'to', label: 'Report'},
+        {from: 4, to: 5, arrows: 'to', label: 'Onboard'},
+        {from: 2, to: 6, arrows: 'to', label: 'Store'},
+        {from: 6, to: 2, arrows: 'to', label: 'Retrieve'},
+        {from: 2, to: 7, arrows: 'to', label: 'Schedule'},
+        {from: 7, to: 4, arrows: 'to', label: 'Update'},
+        {from: 4, to: 8, arrows: 'to', label: 'Generate'},
+        {from: 8, to: 5, arrows: 'to', label: 'Process'}
+    ]);
+    const data = {nodes, edges};
+    const networkOptions = {
+        nodes: {
+            font: {
+                size: 16
+            }
+        },
+        edges: {
+            font: {
+                size: 14
+            },
+            width: 2
+        },
+        physics: {
+            stabilization: false,
+            barnesHut: {
+                gravitationalConstant: -2000,
+                centralGravity: 0.3,
+                springLength: 150,
+                springConstant: 0.04,
+                damping: 0.09,
+                avoidOverlap: 0.1
+            }
+        }
+    };
+    new vis.Network(container, data, networkOptions);
+
+    // Impact Timeline
+    var timelineOptions = {
+        series: [{
+            data: [
+                { x: 'Jan 2023', y: [new Date('2023-01-01').getTime(), new Date('2023-02-15').getTime()], fillColor: '#008FFB' },
+                { x: 'AI ATS Implementation', y: [new Date('2023-02-01').getTime(), new Date('2023-04-30').getTime()], fillColor: '#00E396' },
+                { x: 'Mar 2023', y: [new Date('2023-03-01').getTime(), new Date('2023-04-15').getTime()], fillColor: '#008FFB' },
+                { x: 'Candidate Experience Overhaul', y: [new Date('2023-04-01').getTime(), new Date('2023-06-30').getTime()], fillColor: '#FEB019' },
+                { x: 'May 2023', y: [new Date('2023-05-01').getTime(), new Date('2023-06-15').getTime()], fillColor: '#008FFB' },
+                { x: 'ML-Driven Sourcing Launch', y: [new Date('2023-06-01').getTime(), new Date('2023-08-31').getTime()], fillColor: '#FF4560' },
+                { x: 'Jul 2023', y: [new Date('2023-07-01').getTime(), new Date('2023-08-15').getTime()], fillColor: '#008FFB' },
+                { x: 'HR Analytics Dashboard', y: [new Date('2023-08-01').getTime(), new Date('2023-10-31').getTime()], fillColor: '#775DD0' }
+            ]
+        }],
+        chart: {
+            height: 400,
+            type: 'rangeBar'
+        },
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                distributed: true,
+                dataLabels: {
+                    hideOverflowingLabels: false
+                }
+            }
+        },
+        dataLabels: {
+            enabled: true,
+            formatter: function(val, opts) {
+                var label = opts.w.globals.labels[opts.dataPointIndex]
+                var a = moment(val[0])
+                var b = moment(val[1])
+                var diff = b.diff(a, 'days')
+                return label + ': ' + diff + (diff > 1 ? ' days' : ' day')
+            },
+            style: {
+                colors: ['#f3f4f5', '#fff']
+            }
+        },
+        xaxis: {
+            type: 'datetime'
+        },
+        yaxis: {
+            show: false
+        },
+        grid: {
+            row: {
+                colors: ['#f3f4f5', '#fff'],
+                opacity: 1
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#impactTimeline"), timelineOptions);
+    chart.render();
+    </script>
+</body></html>
