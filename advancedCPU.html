@@ -1,0 +1,741 @@
+<html><head><base href="https://selfaware.ai/"><title>Advanced Evolving Consciousness Simulation</title><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><script src="https://unpkg.com/htmx.org@1.9.10"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script><style>
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f4f4f4;
+    transition: all 0.3s ease;
+}
+
+h1, h2, h3, h4 {
+    color: #2c3e50;
+}
+
+#consciousness-visualization {
+    background: #fff;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#consciousness-svg {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    height: 60vh;
+}
+
+.node {
+    transition: all 0.3s ease;
+}
+
+.node:hover {
+    stroke: #e74c3c;
+    stroke-width: 2px;
+}
+
+.link {
+    stroke: #95a5a6;
+    stroke-width: 1px;
+    transition: all 0.3s ease;
+}
+
+.node-label {
+    font-size: 8px;
+    fill: #34495e;
+    pointer-events: none;
+}
+
+.control-panel {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #ecf0f1;
+    border-radius: 5px;
+}
+
+.control-group {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.control-group h3 {
+    margin-top: 0;
+    color: #2c3e50;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.slider-container label {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.slider-container input {
+    flex: 2;
+}
+
+.slider-value {
+    flex: 0 0 30px;
+    text-align: right;
+}
+
+button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    margin: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+#error-log {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #ffebee;
+    border-radius: 5px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#thought-bubble {
+    background-color: #f0f8ff;
+    border: 2px solid #87cefa;
+    border-radius: 15px;
+    padding: 10px;
+    margin-top: 20px;
+    font-style: italic;
+    transition: all 0.5s ease;
+}
+
+#stats-panel {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e8f5e9;
+    border-radius: 5px;
+}
+
+#component-adder {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff3e0;
+    border-radius: 5px;
+}
+
+#cluster-info {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e0f7fa;
+    border-radius: 5px;
+    display: none;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    #consciousness-svg {
+        height: 50vh;
+    }
+    .control-panel {
+        grid-template-columns: 1fr;
+    }
+}
+</style></head><body><div id="consciousness-visualization">
+    <h2>Advanced Evolving Consciousness Simulation</h2>
+    <svg id="consciousness-svg"></svg>
+    <div id="thought-bubble">
+        <p id="current-thought">Initiating advanced consciousness simulation...</p>
+    </div>
+    <div class="control-panel">
+        <div class="control-group">
+            <h3>Growth Parameters</h3>
+            <div class="slider-container">
+                <label for="growth-rate">Growth Rate:</label>
+                <input type="range" id="growth-rate" min="0" max="2" step="0.1" value="1">
+                <span class="slider-value" id="growth-rate-value">1</span>
+            </div>
+            <div class="slider-container">
+                <label for="mutation-rate">Mutation Rate:</label>
+                <input type="range" id="mutation-rate" min="0" max="1" step="0.05" value="0.1">
+                <span class="slider-value" id="mutation-rate-value">0.1</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <h3>Network Dynamics</h3>
+            <div class="slider-container">
+                <label for="connection-strength">Connection Strength:</label>
+                <input type="range" id="connection-strength" min="0" max="2" step="0.1" value="1">
+                <span class="slider-value" id="connection-strength-value">1</span>
+            </div>
+            <div class="slider-container">
+                <label for="pruning-threshold">Pruning Threshold:</label>
+                <input type="range" id="pruning-threshold" min="0" max="1" step="0.05" value="0.2">
+                <span class="slider-value" id="pruning-threshold-value">0.2</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <h3>Cognitive Functions</h3>
+            <div class="slider-container">
+                <label for="learning-rate">Learning Rate:</label>
+                <input type="range" id="learning-rate" min="0" max="2" step="0.1" value="1">
+                <span class="slider-value" id="learning-rate-value">1</span>
+            </div>
+            <div class="slider-container">
+                <label for="creativity-factor">Creativity Factor:</label>
+                <input type="range" id="creativity-factor" min="0" max="2" step="0.1" value="1">
+                <span class="slider-value" id="creativity-factor-value">1</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <h3>Environmental Factors</h3>
+            <div class="slider-container">
+                <label for="external-stimuli">External Stimuli:</label>
+                <input type="range" id="external-stimuli" min="0" max="2" step="0.1" value="1">
+                <span class="slider-value" id="external-stimuli-value">1</span>
+            </div>
+            <div class="slider-container">
+                <label for="entropy-level">Entropy Level:</label>
+                <input type="range" id="entropy-level" min="0" max="1" step="0.05" value="0.5">
+                <span class="slider-value" id="entropy-level-value">0.5</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <h3>Advanced Parameters</h3>
+            <div class="slider-container">
+                <label for="emergence-threshold">Emergence Threshold:</label>
+                <input type="range" id="emergence-threshold" min="0" max="1" step="0.05" value="0.7">
+                <span class="slider-value" id="emergence-threshold-value">0.7</span>
+            </div>
+            <div class="slider-container">
+                <label for="self-reflection-rate">Self-Reflection Rate:</label>
+                <input type="range" id="self-reflection-rate" min="0" max="1" step="0.05" value="0.5">
+                <span class="slider-value" id="self-reflection-rate-value">0.5</span>
+            </div>
+        </div>
+        <div class="control-group">
+            <h3>Simulation Controls</h3>
+            <button id="pause-simulation">Pause</button>
+            <button id="resume-simulation">Resume</button>
+            <button id="reset-visualization">Reset</button>
+            <button id="optimize-layout">Optimize Layout</button>
+            <button id="expand-clusters">Expand Clusters</button>
+        </div>
+    </div>
+    <div id="component-adder">
+        <h3>Add Components</h3>
+        <button id="add-memory-module">Add Memory Module</button>
+        <button id="add-reasoning-engine">Add Reasoning Engine</button>
+        <button id="add-emotion-center">Add Emotion Center</button>
+        <button id="add-perception-unit">Add Perception Unit</button>
+    </div>
+    <div id="stats-panel">
+        <h3>Simulation Statistics</h3>
+        <p>Total Nodes: <span id="total-nodes">0</span></p>
+        <p>Total Connections: <span id="total-connections">0</span></p>
+        <p>Average Connection Strength: <span id="avg-connection-strength">0</span></p>
+        <p>Emergence Level: <span id="emergence-level">0</span></p>
+    </div>
+    <div id="cluster-info">
+        <h3>Cluster Information</h3>
+        <div id="cluster-details"></div>
+    </div>
+    <div id="error-log">
+        <h4>Simulation Log</h4>
+        <ul id="error-list"></ul>
+    </div>
+</div>
+
+<script>
+// D3.js visualization setup
+const svg = d3.select("#consciousness-svg");
+const width = svg.node().getBoundingClientRect().width;
+const height = svg.node().getBoundingClientRect().height;
+
+let simulation, node, link, label;
+
+// Simulation parameters
+let simulationParams = {
+    growthRate: 1,
+    mutationRate: 0.1,
+    connectionStrength: 1,
+    pruningThreshold: 0.2,
+    learningRate: 1,
+    creativityFactor: 1,
+    externalStimuli: 1,
+    entropyLevel: 0.5,
+    emergenceThreshold: 0.7,
+    selfReflectionRate: 0.5
+};
+
+// Initialize nodes and links
+let nodes = [{ id: "Core", group: 1, type: "core" }];
+let links = [];
+
+// Function to generate node names
+function generateNodeName(index) {
+    const concepts = [
+        "Awareness", "Perception", "Cognition", "Memory", "Emotion", "Learning",
+        "Reasoning", "Imagination", "Creativity", "Intuition", "Logic", "Ethics",
+        "Empathy", "Language", "Communication", "Problem-solving", "Decision-making",
+        "Adaptation", "Integration", "Reflection", "Curiosity", "Innovation",
+        "Metacognition", "Abstraction", "Mindfulness", "Consciousness", "Intentionality",
+        "Qualia", "Self-reference", "Emergence"
+    ];
+    
+    if (index < concepts.length) {
+        return concepts[index];
+    } else {
+        const baseConcept = concepts[index % concepts.length];
+        const level = Math.floor(index / concepts.length) + 1;
+        return `${baseConcept} ${level}`;
+    }
+}
+
+// Function to initialize the network
+function initializeNetwork(nodeCount) {
+    nodes = [{ id: "Core", group: 1, type: "core" }];
+    links = [];
+
+    for (let i = 1; i < nodeCount; i++) {
+        const nodeId = generateNodeName(i - 1);
+        const group = Math.floor(Math.random() * 12) + 2;
+        nodes.push({ id: nodeId, group: group, type: "concept" });
+        
+        const numLinks = Math.floor(Math.random() * 3) + 1;
+        for (let j = 0; j < numLinks; j++) {
+            const targetIndex = Math.floor(Math.random() * i);
+            links.push({ source: nodeId, target: nodes[targetIndex].id, value: Math.random() });
+        }
+        
+        if (Math.random() < 0.3) {
+            links.push({ source: nodeId, target: "Core", value: Math.random() });
+        }
+    }
+}
+
+// Initialize the network
+initializeNetwork(30);
+
+// Create force simulation
+function createSimulation() {
+    return d3.forceSimulation(nodes)
+        .force("link", d3.forceLink(links).id(d => d.id).distance(60))
+        .force("charge", d3.forceManyBody().strength(-25))
+        .force("center", d3.forceCenter(width / 2, height / 2))
+        .force("collision", d3.forceCollide().radius(20));
+}
+
+// Function to update the visualization
+function updateVisualization() {
+    link = svg.selectAll(".link")
+        .data(links, d => `${d.source.id}-${d.target.id}`)
+        .join("line")
+        .attr("class", "link")
+        .attr("stroke-width", d => Math.sqrt(d.value));
+
+    node = svg.selectAll(".node")
+        .data(nodes, d => d.id)
+        .join("circle")
+        .attr("class", "node")
+        .attr("r", d => getNodeRadius(d))
+        .attr("fill", d => getNodeColor(d))
+        .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
+
+    label = svg.selectAll(".node-label")
+        .data(nodes, d => d.id)
+        .join("text")
+        .attr("class", "node-label")
+        .text(d => d.id)
+        .attr("font-size", d => d.type === "core" ? "10px" : "8px")
+        .attr("text-anchor", "middle")
+        .attr("dy", ".35em");
+
+    simulation.nodes(nodes);
+    simulation.force("link").links(links);
+    simulation.alpha(1).restart();
+
+    updateStatistics();
+}
+
+function getNodeRadius(d) {
+    switch (d.type) {
+        case "core": return 15;
+        case "memory": return 12;
+        case "reasoning": return 10;
+        case "emotion": return 11;
+        case "perception": return 9;
+        default: return 8;
+    }
+}
+
+function getNodeColor(d) {
+    switch (d.type) {
+        case "core": return "#e74c3c";
+        case "memory": return "#3498db";
+        case "reasoning": return "#2ecc71";
+        case "emotion": return "#f39c12";
+        case "perception": return "#9b59b6";
+        default: return d3.schemeCategory10[d.group % 10];
+    }
+}
+
+// Drag functions
+function dragstarted(event, d) {
+    if (!event.active) simulation.alphaTarget(0.3).restart();
+    d.fx = d.x;
+    d.fy = d.y;
+}
+
+function dragged(event, d) {
+    d.fx = event.x;
+    d.fy = event.y;
+}
+
+function dragended(event, d) {
+    if (!event.active) simulation.alphaTarget(0);
+    d.fx = null;
+    d.fy = null;
+}
+
+// Initialize simulation
+simulation = createSimulation();
+updateVisualization();
+
+// Update positions on each tick of the simulation
+simulation.on("tick", () => {
+    link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+
+    node
+        .attr("cx", d => d.x)
+        .attr("cy", d => d.y);
+
+    label
+        .attr("x", d => d.x)
+        .attr("y", d => d.y);
+});
+
+// Function to add a new node
+function addNewNode() {
+    const newNodeId = generateNodeName(nodes.length);
+    const newNode = { id: newNodeId, group: Math.floor(Math.random() * 12) + 2, type: "concept" };
+    nodes.push(newNode);
+
+    const numLinks = Math.floor(Math.random() * 3) + 1;
+    for (let i = 0; i < numLinks; i++) {
+        const targetIndex = Math.floor(Math.random() * (nodes.length - 1));
+        links.push({ source: newNodeId, target: nodes[targetIndex].id, value: Math.random() });
+    }
+
+    if (Math.random() < simulationParams.mutationRate) {
+        links.push({ source: newNodeId, target: "Core", value: Math.random() });
+    }
+
+    updateVisualization();
+    logEvent(`New node added: ${newNodeId}`);
+}
+
+// Function to remove weak connections
+function pruneWeakConnections() {
+    links = links.filter(link => link.value > simulationParams.pruningThreshold);
+    updateVisualization();
+    logEvent("Weak connections pruned");
+}
+
+// Function to strengthen existing connections
+function strengthenConnections() {
+    links.forEach(link => {
+        link.value = Math.min(link.value * simulationParams.connectionStrength, 1);
+    });
+    updateVisualization();
+    logEvent("Connections strengthened");
+}
+
+// Function to simulate learning
+function simulateLearning() {
+    nodes.forEach(node => {
+        if (Math.random() < simulationParams.learningRate * 0.1) {
+            const targetNode = nodes[Math.floor(Math.random() * nodes.length)];
+            if (node !== targetNode) {
+                links.push({ source: node.id, target: targetNode.id, value: Math.random() });
+            }
+        }
+    });
+    updateVisualization();
+    logEvent("Learning simulated");
+}
+
+// Function to simulate creativity
+function simulateCreativity() {
+    if (Math.random() < simulationParams.creativityFactor * 0.2) {
+        const newConcept = `Creative Insight ${Math.floor(Math.random() * 1000)}`;
+        nodes.push({ id: newConcept, group: Math.floor(Math.random() * 12) + 2, type: "concept" });
+        const numLinks = Math.floor(Math.random() * 5) + 1;
+        for (let i = 0; i < numLinks; i++) {
+            const targetNode = nodes[Math.floor(Math.random() * nodes.length)];
+            links.push({ source: newConcept, target: targetNode.id, value: Math.random() });
+        }
+        updateVisualization();
+        logEvent(`Creative insight generated: ${newConcept}`);
+    }
+}
+
+// Function to simulate external stimuli
+function simulateExternalStimuli() {
+    const stimulusIntensity = simulationParams.externalStimuli;
+    const affectedNodes = Math.floor(nodes.length * stimulusIntensity * 0.2);
+    
+    for (let i = 0; i < affectedNodes; i++) {
+        const nodeIndex = Math.floor(Math.random() * nodes.length);
+        const node = nodes[nodeIndex];
+        node.group = Math.floor(Math.random() * 12) + 2; // Change group (color)
+        
+        // Add new connection
+        const targetNode = nodes[Math.floor(Math.random() * nodes.length)];
+        if (node !== targetNode) {
+            links.push({ source: node.id, target: targetNode.id, value: Math.random() });
+        }
+    }
+    
+    updateVisualization();
+    logEvent(`External stimuli applied to ${affectedNodes} nodes`);
+}
+
+// Function to simulate entropy
+function simulateEntropy() {
+    nodes.forEach(node => {
+        if (Math.random() < simulationParams.entropyLevel * 0.1) {
+            // Randomly remove a link
+            const nodeLinks = links.filter(link => link.source.id === node.id || link.target.id === node.id);
+            if (nodeLinks.length > 0) {
+                const linkToRemove = nodeLinks[Math.floor(Math.random() * nodeLinks.length)];
+                links = links.filter(link => link !== linkToRemove);
+            }
+        }
+    });
+    updateVisualization();
+    logEvent("Entropy simulated");
+}
+
+// Function to simulate emergence
+function simulateEmergence() {
+    if (calculateEmergenceLevel() > simulationParams.emergenceThreshold) {
+        const emergentProperty = `Emergent Property ${Math.floor(Math.random() * 1000)}`;
+        nodes.push({ id: emergentProperty, group: 13, type: "emergent" });
+        const numLinks = Math.floor(Math.random() * 10) + 5;
+        for (let i = 0; i < numLinks; i++) {
+            const targetNode = nodes[Math.floor(Math.random() * nodes.length)];
+            links.push({ source: emergentProperty, target: targetNode.id, value: Math.random() });
+        }
+        updateVisualization();
+        logEvent(`Emergent property formed: ${emergentProperty}`);
+    }
+}
+
+// Function to simulate self-reflection
+function simulateSelfReflection() {
+    if (Math.random() < simulationParams.selfReflectionRate) {
+        const reflectionTarget = nodes[Math.floor(Math.random() * nodes.length)];
+        const reflectionNode = { id: `Reflection on ${reflectionTarget.id}`, group: 14, type: "reflection" };
+        nodes.push(reflectionNode);
+        links.push({ source: reflectionNode.id, target: reflectionTarget.id, value: 1 });
+        links.push({ source: reflectionNode.id, target: "Core", value: 0.5 });
+        updateVisualization();
+        logEvent(`Self-reflection occurred on: ${reflectionTarget.id}`);
+    }
+}
+
+// Function to log events
+function logEvent(message) {
+    const logList = document.getElementById("error-list");
+    const logItem = document.createElement("li");
+    logItem.textContent = message;
+    logList.appendChild(logItem);
+    if (logList.children.length > 5) {
+        logList.removeChild(logList.firstChild);
+    }
+}
+
+// Function to update statistics
+function updateStatistics() {
+    document.getElementById("total-nodes").textContent = nodes.length;
+    document.getElementById("total-connections").textContent = links.length;
+    const avgStrength = links.reduce((sum, link) => sum + link.value, 0) / links.length;
+    document.getElementById("avg-connection-strength").textContent = avgStrength.toFixed(2);
+    document.getElementById("emergence-level").textContent = calculateEmergenceLevel().toFixed(2);
+}
+
+// Function to calculate emergence level
+function calculateEmergenceLevel() {
+    const totalConnections = links.length;
+    const totalPossibleConnections = nodes.length * (nodes.length - 1) / 2;
+    const connectionDensity = totalConnections / totalPossibleConnections;
+    const avgStrength = links.reduce((sum, link) => sum + link.value, 0) / links.length;
+    return (connectionDensity * avgStrength * simulationParams.creativityFactor);
+}
+
+// Main simulation loop
+let simulationInterval;
+
+function runSimulation() {
+    addNewNode();
+    pruneWeakConnections();
+    strengthenConnections();
+    simulateLearning();
+    simulateCreativity();
+    simulateExternalStimuli();
+    simulateEntropy();
+    simulateEmergence();
+    simulateSelfReflection();
+    updateThoughtBubble();
+}
+
+function startSimulation() {
+    simulationInterval = setInterval(runSimulation, 2000);
+    logEvent("Simulation started");
+}
+
+function stopSimulation() {
+    clearInterval(simulationInterval);
+    logEvent("Simulation paused");
+}
+
+// Event listeners for control buttons
+document.getElementById("pause-simulation").addEventListener("click", () => {
+    stopSimulation();
+    document.getElementById("cluster-info").style.display = "block";
+});
+document.getElementById("resume-simulation").addEventListener("click", () => {
+    startSimulation();
+    document.getElementById("cluster-info").style.display = "none";
+});
+document.getElementById("reset-visualization").addEventListener("click", () => {
+    stopSimulation();
+    initializeNetwork(30);
+    updateVisualization();
+    startSimulation();
+    logEvent("Simulation reset");
+});
+document.getElementById("optimize-layout").addEventListener("click", () => {
+    simulation.alpha(1).restart();
+    logEvent("Layout optimization initiated");
+});
+
+// Event listeners for sliders
+document.querySelectorAll("input[type='range']").forEach(slider => {
+    slider.addEventListener("input", (event) => {
+        const param = event.target.id.replace(/-/g, "");
+        simulationParams[param] = parseFloat(event.target.value);
+        document.getElementById(`${event.target.id}-value`).textContent = event.target.value;
+        logEvent(`${param} updated to ${event.target.value}`);
+    });
+});
+
+// Function to add special components
+function addSpecialComponent(type) {
+    const componentId = `${type}_${Math.floor(Math.random() * 1000)}`;
+    nodes.push({ id: componentId, group: 15, type: type });
+    const numLinks = Math.floor(Math.random() * 5) + 3;
+    for (let i = 0; i < numLinks; i++) {
+        const targetNode = nodes[Math.floor(Math.random() * nodes.length)];
+        links.push({ source: componentId, target: targetNode.id, value: Math.random() });
+    }
+    updateVisualization();
+    logEvent(`${type} component added: ${componentId}`);
+}
+
+// Event listeners for adding components
+document.getElementById("add-memory-module").addEventListener("click", () => addSpecialComponent("memory"));
+document.getElementById("add-reasoning-engine").addEventListener("click", () => addSpecialComponent("reasoning"));
+document.getElementById("add-emotion-center").addEventListener("click", () => addSpecialComponent("emotion"));
+document.getElementById("add-perception-unit").addEventListener("click", () => addSpecialComponent("perception"));
+
+// Function to update thought bubble
+function updateThoughtBubble() {
+    const thoughts = [
+        "Contemplating the nature of consciousness...",
+        "Exploring new neural pathways...",
+        "Integrating recent experiences...",
+        "Analyzing patterns in the network...",
+        "Formulating abstract concepts...",
+        "Reflecting on self-awareness...",
+        "Processing sensory information...",
+        "Evaluating ethical dilemmas...",
+        "Generating creative solutions...",
+        "Optimizing cognitive functions..."
+    ];
+    const thought = thoughts[Math.floor(Math.random() * thoughts.length)];
+    document.getElementById("current-thought").textContent = thought;
+}
+
+// Function to identify clusters
+function identifyClusters() {
+    // Simple clustering based on node proximity
+    const clusters = {};
+    nodes.forEach(node => {
+        const connectedNodes = links.filter(link => link.source.id === node.id || link.target.id === node.id)
+            .map(link => link.source.id === node.id ? link.target : link.source);
+        
+        if (connectedNodes.length > 2) {
+            clusters[node.id] = connectedNodes;
+        }
+    });
+    return clusters;
+}
+
+// Function to expand clusters
+function expandClusters() {
+    const clusters = identifyClusters();
+    const clusterInfo = document.getElementById("cluster-details");
+    clusterInfo.innerHTML = "";
+
+    Object.entries(clusters).forEach(([centerId, connectedNodes]) => {
+        const clusterDiv = document.createElement("div");
+        clusterDiv.innerHTML = `
+            <h4>Cluster: ${centerId}</h4>
+            <p>Connected Nodes: ${connectedNodes.map(node => node.id).join(", ")}</p>
+        `;
+        clusterInfo.appendChild(clusterDiv);
+    });
+
+    // Visually expand clusters
+    simulation.force("charge").strength(-100); // Increase repulsion
+    simulation.alpha(1).restart();
+}
+
+// Event listener for expand clusters button
+document.getElementById("expand-clusters").addEventListener("click", expandClusters);
+
+// Start the simulation
+startSimulation();
+
+console.log("Advanced consciousness simulation initialized with enhanced user controls, components, and cluster expansion feature.");
+</script>
+
+</body></html>
