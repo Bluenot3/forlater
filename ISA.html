@@ -1,0 +1,108 @@
+import React, { useState } from 'react';
+import { ArrowRight, Check, ChevronDown, ChevronUp } from 'lucide-react';
+
+const ProjectCard = ({ title, description, impact, expanded, toggleExpand }) => (
+  <div className="bg-white rounded-lg shadow-lg p-6 mb-6 transition-all duration-300 ease-in-out hover:shadow-xl">
+    <h3 className="text-2xl font-bold mb-3 text-blue-600">{title}</h3>
+    <p className="text-gray-700 mb-4">{description}</p>
+    <button 
+      onClick={toggleExpand}
+      className="flex items-center text-blue-500 hover:text-blue-700 transition-colors duration-200"
+    >
+      {expanded ? 'Hide Impact' : 'Show Impact'}
+      {expanded ? <ChevronUp className="ml-2" /> : <ChevronDown className="ml-2" />}
+    </button>
+    {expanded && (
+      <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+        <h4 className="font-semibold mb-2 text-blue-800">Project Impact:</h4>
+        <ul className="list-disc pl-5 text-gray-700">
+          {impact.map((item, index) => (
+            <li key={index} className="mb-2">{item}</li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </div>
+);
+
+const ZENProjectsPage = () => {
+  const [expandedProject, setExpandedProject] = useState(null);
+
+  const projects = [
+    {
+      title: "AI-Powered Process Automation for Manufacturing",
+      description: "Implemented a comprehensive ISA (Improve, Save & Automate) strategy for a leading manufacturing company, leveraging AI and automation to streamline operations.",
+      impact: [
+        "Reduced manual processing costs by 90%, saving $450,000 annually",
+        "Increased overall productivity by 40% through task automation",
+        "Implemented predictive maintenance, reducing downtime by 35%"
+      ]
+    },
+    {
+      title: "Smart Resource Management System for Non-Profit",
+      description: "Developed a custom AI-driven resource and volunteer management system using Microsoft Power Platform and Azure services.",
+      impact: [
+        "Eliminated 700 hours of manual coordination effort annually",
+        "Improved volunteer engagement and retention rates by 25%",
+        "Increased successful grant applications by 15% through automated reporting"
+      ]
+    },
+    {
+      title: "AI-Enhanced Customer Service Automation",
+      description: "Designed and implemented an advanced customer service automation system using natural language processing and machine learning algorithms.",
+      impact: [
+        "Reduced average response time by 80%, from 2 hours to 24 minutes",
+        "Improved customer satisfaction scores by 30%",
+        "Enabled 24/7 support without increasing staffing costs"
+      ]
+    },
+    {
+      title: "Intelligent Supply Chain Optimization",
+      description: "Created a comprehensive supply chain optimization solution using AI and IoT technologies to improve inventory management and logistics.",
+      impact: [
+        "Reduced inventory holding costs by 22% through predictive stocking",
+        "Improved on-time delivery rates by 18%",
+        "Decreased transportation costs by 15% through route optimization"
+      ]
+    }
+  ];
+
+  return (
+    <div className="bg-gray-100 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-12 text-blue-800">ZEN Projects: Empowering Through Innovation</h1>
+        
+        <div className="mb-12 text-center">
+          <p className="text-xl text-gray-700 mb-6">
+            At ZEN, we're revolutionizing businesses through our ISA (Improve, Save & Automate) initiative. 
+            Our projects showcase the power of AI and automation in driving efficiency, reducing costs, and boosting productivity.
+          </p>
+          <a href="#" className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors duration-200">
+            Learn More About ISA <ArrowRight className="ml-2" />
+          </a>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {projects.map((project, index) => (
+            <ProjectCard 
+              key={index}
+              {...project}
+              expanded={expandedProject === index}
+              toggleExpand={() => setExpandedProject(expandedProject === index ? null : index)}
+            />
+          ))}
+        </div>
+
+        <div className="mt-16 bg-blue-600 text-white rounded-lg p-8 text-center">
+          <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Business?</h2>
+          <p className="text-xl mb-6">Let ZEN help you implement the ISA strategy and unlock your organization's full potential.</p>
+          <button className="bg-white text-blue-600 px-8 py-3 rounded-full font-bold hover:bg-blue-100 transition-colors duration-200">
+            Get Started Today
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ZENProjectsPage;
